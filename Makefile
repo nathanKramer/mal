@@ -92,7 +92,7 @@ DOCKERIZE =
 IMPLS = ada ada.2 awk bash basic bbc-basic c chuck clojure coffee common-lisp cpp crystal cs d dart \
 	elisp elixir elm erlang es6 factor fantom forth fsharp go groovy gnu-smalltalk \
 	guile haskell haxe hy io java js jq julia kotlin livescript logo lua make mal \
-	matlab miniMAL nasm nim objc objpascal ocaml perl perl6 php picolisp pike plpgsql \
+	matlab miniMAL my-python-impl nasm nim objc objpascal ocaml perl perl6 php picolisp pike plpgsql \
 	plsql powershell ps python python.2 r racket rexx rpython ruby rust scala scheme skew \
 	swift swift3 swift4 swift5 tcl ts vala vb vhdl vimscript wasm wren yorick xslt zig
 
@@ -230,6 +230,7 @@ make_STEP_TO_PROG =          impls/make/$($(1)).mk
 mal_STEP_TO_PROG =           impls/mal/$($(1)).mal
 matlab_STEP_TO_PROG =        impls/matlab/$($(1)).m
 miniMAL_STEP_TO_PROG =       impls/miniMAL/$($(1)).json
+my-python-impl_STEP_TO_PROG = impls/my-python-impl/$($(1)).py
 nasm_STEP_TO_PROG =          impls/nasm/$($(1))
 nim_STEP_TO_PROG =           impls/nim/$($(1))
 objc_STEP_TO_PROG =          impls/objc/$($(1))
