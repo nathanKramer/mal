@@ -1,4 +1,5 @@
 import re
+import datatypes
 
 
 class MalReaderError(Exception):
@@ -48,17 +49,52 @@ def read_list(reader):
     return l
 
 
+def maybe_parse_string(token):
+    matches = re.match(r"^['|\"]{1}(.*)['|\"]{1}$", token)
+    if not matches:
+        return None
+    return datatypes.new_str(matches.group(1))
+
+
+def maybe_parse_int(token):
+    if not re.match(r"^-*\d+$", token):
+        return None
+    return datatypes.new_int(token)
+
+
+def maybe_parse_float(token):
+    if not re.match(r"^-*\d+\.\d+$", token):
+        return None
+    return datatypes.new_float(token)
+
+
+def parse_scalar(token):
+    if token == 'nil':
+        return None
+    elif token == 'true':
+        return True
+    elif token == 'false':
+        return False
+    else:
+        return datatypes.new_symbol(token)
+
+
 def read_atom(reader):
-    nxt = reader.next()
-    if nxt == ")":
-        raise MalSyntaxError("Unexpected token: {nxt}. unbalanced brackets!")
-    elif nxt == "" or nxt == "\n":
+    token = reader.next()
+    if token == ")":
+        raise MalSyntaxError("Unexpected token: {token}. unbalanced brackets!")
+    elif token == "" or token == "\n":
         raise MalSyntaxError("expected ')', got EOF")
-    if re.match(r"^-*\d+$", nxt) != None:
-        return int(nxt)
-    elif re.match(r"^-*\d+\.\d+$", nxt) != None:
-        return float(nxt)
-    return nxt
+    i = maybe_parse_int(token)
+    if i != None:
+        return i
+    f = maybe_parse_float(token)
+    if f != None:
+        return f
+    s = maybe_parse_string(token)
+    if s != None:
+        return s
+    return parse_scalar(token)
 
 
 # [\s,]*: Matches any number of whitespaces or commas.
