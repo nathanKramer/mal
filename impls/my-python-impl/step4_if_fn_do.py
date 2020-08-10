@@ -44,7 +44,6 @@ def EVAL(ast, local_env):
             binds, body = ast[1], ast[2]
 
             def fn(*args):
-                e = env.Env(local_env, binds, args)
                 return EVAL(body, env.Env(local_env, binds, args))
             return fn
         elif special_form == "let*":
