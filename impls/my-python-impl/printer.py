@@ -1,7 +1,11 @@
-def pr_str(data, _print_readably=True):
+def _escape(s):
+    return s.replace('\\', '\\\\').replace('"', '\\"').replace('\n', '\\n')
+
+
+def pr_str(data, print_readably=True):
     t = type(data)
     if t == list:
-        inner = " ".join([pr_str(i) for i in data])
+        inner = " ".join([pr_str(i, print_readably) for i in data])
         return f"({inner})"
     elif t == int or t == float:
         return str(data)
@@ -11,4 +15,6 @@ def pr_str(data, _print_readably=True):
         return 'false'
     elif data is None:
         return 'nil'
+    elif t == str and print_readably:
+        return '"' + _escape(data) + '"'
     return str(data)

@@ -1,5 +1,6 @@
 import functools
 import datatypes
+import reader
 import printer
 
 
@@ -50,6 +51,10 @@ def list_empty(l):
 def prn(*args):
     print(" ".join(map(lambda exp: printer.pr_str(exp, True), args)))
     return None
+
+
+def _str(*args):
+    return "".join(map(lambda exp: printer.pr_str(exp, False), args))
 
 
 # Tests the predicate against a and b.
@@ -125,5 +130,8 @@ ns = {
     '>=': greater_or_equal_n,
     '<': less_than_n,
     '<=': less_than_or_equal_n,
-    'prn': prn
+    'prn': prn,
+    'read-string': reader.read_str,
+    'slurp': lambda file: open(file).read(),
+    'str': _str
 }

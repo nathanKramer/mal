@@ -50,10 +50,11 @@ def read_list(reader):
 
 
 def maybe_parse_string(token):
-    matches = re.match(r"^['|\"]{1}(.*)['|\"]{1}$", token)
+    matches = re.match(r"^\"(?:\\.|[^\\\"])*\"$", token)
     if not matches:
         return None
-    return datatypes.new_str(matches.group(1))
+    escaped = token[1:-1].replace('\\"', '"').replace('\\n', '\n')
+    return datatypes.new_str(escaped)
 
 
 def maybe_parse_int(token):
